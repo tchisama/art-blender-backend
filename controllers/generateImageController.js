@@ -10,7 +10,7 @@ exports.generateImage = async (req, res) => {
 
         // console.log(image.data);
         
-        console.log("it's working fine")
+        console.log(req.body)
         res.json({message:req.body});
     }catch(err){
         console.log(err);

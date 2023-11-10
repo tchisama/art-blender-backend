@@ -5,7 +5,7 @@ const modules = {
     },
     portrait:{
         name:"portrait",
-        prompt:"Create a realistic portrait featuring [ PROMPT ]."
+        prompt:"Create a realistic portrait featuring  [ PROMPT ]. make sure it looks realistic not a painting"
     },
     landscape:{
         name:"landscape",

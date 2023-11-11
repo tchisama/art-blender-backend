@@ -1,3 +1,4 @@
 node_modules
 .env
-/config/openAi.js
+openai.js
+mykey.json

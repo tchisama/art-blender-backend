@@ -2,8 +2,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const generateImageRoute = require('./routes/generateImageRoute');
-const OpenAI = require("openai");
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+
 
 
 
@@ -24,3 +26,14 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+mongoose.connect('mongodb+srv://tchisama:helloworld@cluster0.aryogkr.mongodb.net/', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});

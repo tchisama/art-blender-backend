@@ -4,7 +4,10 @@ const { openai } = require('../config/openAi');
 const generateImageService = require('../services/generateImageService');
 const axios = require('axios');
 const fs = require('fs');
+const { uploadImage } = require('../services/uploadToGoogleCloudStorage');
+const { GeneratedImage } = require('../models/generatedImageSchema');
 const test = true
+
 exports.generateImage = async (req, res) => {
     const { prompt , n , size , model,dallev } = req.body;
     try{
@@ -27,21 +30,49 @@ exports.generateImage = async (req, res) => {
               size: size
           });
 
-          image.data.forEach(element => {
-              downloadImage(element.url,"./demo/"+Math.floor(Math.random()*10000000)+".png");
-          });
         }
-        // // console.log(image.data);
-        
-        
 
-        res.json(
-            {
-                data:image.data.map(img=>{
-                    return ({url:img.url,prompt:img.revised_prompt})
-                })
-            }
-        );
+        // // console.log(image.data);
+        new Promise(async (resolve, reject) => {
+          const imagesUrls = [];
+          try {
+              await Promise.all(image.data.map(async (element) => {
+                  const id = Math.floor(Math.random() * 1000000000);
+                  await downloadImage(element.url, "./demo/" + id + ".png");
+                  const url = await uploadImage("./demo/" + id + ".png", id + ".png");
+                  imagesUrls.push(url);
+              }));
+      
+              resolve(imagesUrls);
+          } catch (error) {
+              reject(error);
+          }
+      }).then((ress) => {
+          console.log(ress);
+          const newGeneratedImage = new GeneratedImage({
+              results: image.data.map((img, i) => ({
+                  prompt: img.revised_prompt,
+                  url: ress[i]
+              })),
+              userid: 'user123',
+              model,
+              prompt,
+              size,
+              n,
+              dallev,
+          });
+      
+          newGeneratedImage.save().then((saved) => {
+              res.json({
+                  data: saved.results
+              });
+          });
+      }).catch((error) => {
+          // Handle errors here
+          console.error(error);
+      });
+
+
 
     }catch(err){
         console.log(err);

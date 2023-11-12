@@ -6,7 +6,7 @@ const axios = require('axios');
 const fs = require('fs');
 const { uploadImage } = require('../services/uploadToGoogleCloudStorage');
 const { GeneratedImage } = require('../models/generatedImageSchema');
-const test = true
+const test = false
 
 exports.generateImage = async (req, res) => {
     const { prompt , n , size , model,dallev } = req.body;

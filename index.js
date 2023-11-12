@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const generateImageRoute = require('./routes/generateImageRoute');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const userRoutes = require('./routes/userRoute'); // Adjust the path based on your file structure
 
 
 
@@ -20,6 +21,11 @@ app.use(cors());
 
 // Routes
 app.use('/api', generateImageRoute);
+app.use('/users', userRoutes);
+
+
+
+
 
 // Start server
 app.listen(port, () => {

@@ -9,7 +9,7 @@ const { GeneratedImage } = require('../models/generatedImageSchema');
 const test = false
 
 exports.generateImage = async (req, res) => {
-    const { prompt , n , size , model,dallev } = req.body;
+    const { prompt , n , size , model,dallev,userId } = req.body;
     try{
         var image;
         if(test){
@@ -54,7 +54,7 @@ exports.generateImage = async (req, res) => {
                   prompt: img.revised_prompt,
                   url: ress[i]
               })),
-              userid: 'user123',
+              userId,
               model,
               prompt,
               size,
@@ -103,4 +103,17 @@ async function downloadImage(imageUrl,outputPath) {
       console.error('Error downloading image:', error.message);
     }
   }
+ 
   
+
+  exports.getGeneratedImages = async (req, res) => {
+    const { userId } = req.body;
+    try {
+      const generatedImages = await GeneratedImage.find({ userId }).sort({
+        createdAt: -1,
+      });
+      res.status(200).json(generatedImages);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }

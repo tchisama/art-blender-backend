@@ -5,7 +5,8 @@ const generateImageRoute = require('./routes/generateImageRoute');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoute'); // Adjust the path based on your file structure
-
+const promptRoutes = require('./routes/generatePromptRoute'); // Adjust the path based on your file structure
+require('dotenv').config();
 
 
 
@@ -22,17 +23,17 @@ app.use(cors());
 // Routes
 app.use('/api', generateImageRoute);
 app.use('/users', userRoutes);
+app.use('/prompts', promptRoutes);
 
 
-
-
+const MONGO_URI = process.env.MONGO_URL;
 
 // Start server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-mongoose.connect('mongodb+srv://tchisama:helloworld@cluster0.aryogkr.mongodb.net/', {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

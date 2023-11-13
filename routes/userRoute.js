@@ -4,5 +4,6 @@ const userController = require('../controllers/userControler'); // Adjust the pa
 
 // Define routes
 router.post('/register', userController.registerUser);
+router.post('/get-user-by-email', userController.getUserByEmail);
 
 module.exports = router;

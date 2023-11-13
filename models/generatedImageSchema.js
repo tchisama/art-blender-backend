@@ -12,11 +12,7 @@ const generatedImageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-  userid: {
+  userId: {
     type: String,
     required: true,
   },
@@ -36,7 +32,11 @@ const generatedImageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+},
+{
+  timestamps: true
+}
+);
 
 const GeneratedImage = mongoose.model('GeneratedImage', generatedImageSchema);
 

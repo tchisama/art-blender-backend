@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoute'); // Adjust the path based on your file structure
 const promptRoutes = require('./routes/generatePromptRoute'); // Adjust the path based on your file structure
+const postRoutes = require('./routes/postRoute'); // Adjust the path based on your file structure
 require('dotenv').config();
 
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use('/api', generateImageRoute);
 app.use('/users', userRoutes);
 app.use('/prompts', promptRoutes);
+app.use('/posts', postRoutes);
 
 
 const MONGO_URI = process.env.MONGO_URL;

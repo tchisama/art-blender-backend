@@ -1,9 +1,8 @@
 // making the post controller
-
 const Post = require('../models/PostSchema');
 
 const createPost = async (req, res) => {
-    const { results, description: description, likes, prompt, userId, model, size, n, dallev } = req.body;
+    const { results, description , likes, prompt, userId, model, size, n, dallev } = req.body;
 
     const newPost = new Post({
         results,
@@ -24,3 +23,5 @@ const createPost = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+exports.createPost = createPost
